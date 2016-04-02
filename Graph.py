@@ -42,7 +42,6 @@ class Graph:
             for edge in lst:
                 string += str(edge) + "; "
             string += "\n"
-        print(string)
         return string
 
     # Checks that the node numbers given are valid for this
@@ -56,7 +55,8 @@ class Graph:
         else:
             edge = Edge(n1, n2, cost)
             self.E[n1].append(edge)
-            self.E[n2].append(edge)
+            #May not need this if it is a directed graph?
+            #self.E[n2].append(edge)
 
     # Since we do not store a list of the vertices, simply
     # add one to the number of nodes and create an empty list
@@ -65,9 +65,14 @@ class Graph:
         self.numNodes += 1
         self.E.append([])
 
-    # Returns the list of edges for the specified node.
+    # Returns the list of nodes that you can get to from
+    # the specified node
     def getNeighbors(self, node):
-        return self.E[node]
+        neighborEdges = self.E[node]
+        nodeList = []
+        for edge in neighborEdges:
+            nodeList.append(edge.node2)
+        return nodeList
 
 
     
