@@ -81,6 +81,33 @@ def prims(G):
         right.remove(e.node2)
     return min_span_tree
 
+# Dijkstra's Algorithm
+def dijkstra(G, start, target):
+    V = list(range(G.numNodes))
+    D = [sys.maxsize] * G.numNodes
+    P = [None] * G.numNodes
+    D[0] = start
+    while(len(V) != 0):
+        temp = sys.maxsize
+        n = 0 # n is only the value of the node
+        for i in V: # check this out, it's not right yet
+            if int(D[i]) < int(temp):
+                temp = D[i]
+                n = i
+        if(n == target):
+            R = [P, D]
+            return R
+            # return P, D
+        N = G.getNeighbors(n)
+        for c in N:     # c is an edge node, thus c.node2 is the value of
+                        # the destination of the edge
+            if(D[n] + c.cost < D[c.node2]):
+               D[c.node2] = D[n] + c.cost
+               P[c.node2] = n
+        V.remove(n)
+    R = [P, D]
+    return R
+
 def cut(G):
     left = []
     right = []
