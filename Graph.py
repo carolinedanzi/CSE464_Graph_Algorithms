@@ -65,14 +65,17 @@ class Graph:
         self.numNodes += 1
         self.E.append([])
 
-    # Returns the list of nodes that you can get to from
+    # Returns the list of edges leaving
     # the specified node
     def getNeighbors(self, node):
+        return self.E[node]
+        """
         neighborEdges = self.E[node]
         nodeList = []
         for edge in neighborEdges:
             nodeList.append(edge.node2)
         return nodeList
+        """
 
 
     
