@@ -55,22 +55,22 @@ class Main:
 
      # Dijkstra's Algorithm
     def dijkstra(G, start, target):
-        V = G
-        D[0:len(G)] = sys.maxint
-        P[0:len(G)] = None
+        V = list(range(G.numNodes))
+        D = [sys.maxsize] * G.numNodes
+        P = [None] * G.numNodes
         D[0] = start
         while(len(V) != 0):
-            temp = sys.maxint
-            n = None # n is only the value of the node
-            for i in V:
-                if D[D.index(i)] < temp:
-                    temp = D[D.index(i)]
+            temp = sys.maxsize
+            n = 0 # n is only the value of the node
+            for i in V: # check this out, it's not right yet
+                if int(D[i]) < int(temp):
+                    temp = D[i]
                     n = i
             if(n == target):
                 R = [P, D]
                 return R
                 # return P, D
-            N = G[n].getNeighbors()
+            N = G.getNeighbors(n)
             for c in N:     # c is an edge node, thus c.node2 is the value of
                             # the destination of the edge
                 if(D[n] + c.cost < D[c.node2]):
@@ -97,7 +97,7 @@ class Main:
             elif choice == '2':
                 start = input("Enter a starting node: ")
                 target = input("Enter a destination node: ")
-                print(dijkstra(userGraph), int(start), int(target))
+                print(dijkstra(userGraph, start, target), int(start), int(target))
             elif choice == '3':
                 print(prims(userGraph))
             else:
