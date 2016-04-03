@@ -39,11 +39,26 @@ class Main:
             
         return graph
 
-    def DFS(G):
-        return 'not implemented yet'
+   # Depth First Search
+    def DFS(G, start, dest):
+        s.append(start) # stack
+        while (len(s) != 0):
+            n = s.pop()
+            if(n == dest):
+                return true
+            else:
+                N = G[n].getNeighbors()
+                for v in N:
+                    s.push(v)
+        return false
 
-    def dijkstra(G):
-        return 'not implemented yet'
+     # Dijkstra's Algorithm
+    def dijkstras(G, start, target):
+        V = G
+        D[0:len(G)] = sys.maxint
+        P[0:len(G)] = None
+        D[0] = start
+        return 'not done yet'
 
     def prims(G):
         return 'not implemented yet'
