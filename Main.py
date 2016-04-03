@@ -41,16 +41,17 @@ class Main:
 
    # Depth First Search
     def DFS(G, start, dest):
+        s = []
         s.append(start) # stack
         while (len(s) != 0):
             n = s.pop()
             if(n == dest):
-                return true
+                return True
             else:
-                N = G[n].getNeighbors()
+                N = G.getNeighbors(n)
                 for v in N:
-                    s.push(v)
-        return false
+                    s.append(v.node2)
+        return False
 
      # Dijkstra's Algorithm
     def dijkstras(G, start, target):
@@ -71,9 +72,13 @@ class Main:
         choice = input("Please enter a menu option:\n0) Exit\n1) Is there a path from A to B?\n2) What is the shortest path from A to B?\n3) Find the minimum spanning tree\n")
         while(choice != '0'):
             if choice == '1':
-                print(DFS(userGraph))
+                start = input("Enter a starting node: ")
+                destination = input("Enter a destination node: ")
+                print(DFS(userGraph, int(start), int(destination)))
             elif choice == '2':
-                print(dijkstra(userGraph))
+                start = input("Enter a starting node: ")
+                target = input("Enter a destination node: ")
+                print(dijkstra(userGraph), int(start), int(target))
             elif choice == '3':
                 print(prims(userGraph))
             else:
