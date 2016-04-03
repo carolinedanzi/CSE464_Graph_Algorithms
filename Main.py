@@ -36,16 +36,32 @@ class Main:
             n2 = int(n2)
             cost = int(cost)
             graph.addEdge(n1, n2, cost)
-
-        print(str(graph))
+            
         return graph
 
-"""
-if __name__ == "__main__":
-    # Get file name from command line and send it to parseFile
-    # The argv[0] is always the name of the program file
-    # argv[1] will have the name of the file containing the graph
-    graphFile = sys.argv[1]
-    userGraph = parseGraphFromFile(graphFile)
-    print(str(userGraph))
-"""
+    def DFS(G):
+        return 'not implemented yet'
+
+    def dijkstra(G):
+        return 'not implemented yet'
+
+    def prims(G):
+        return 'not implemented yet'
+
+    if __name__ == "__main__":
+        graphFileName = input("Enter in the name of the graph file: ")
+        userGraph = parseGraphFromFile(graphFileName)
+        print(str(userGraph))
+        
+        choice = input("Please enter a menu option:\n0) Exit\n1) Is there a path from A to B?\n2) What is the shortest path from A to B?\n3) Find the minimum spanning tree\n")
+        while(choice != '0'):
+            if choice == '1':
+                print(DFS(userGraph))
+            elif choice == '2':
+                print(dijkstra(userGraph))
+            elif choice == '3':
+                print(prims(userGraph))
+            else:
+                print("Sorry, that was not an option")
+            choice = input("Please enter a menu option:\n0) Exit\n1) Is there a path from A to B?\n2) What is the shortest path from A to B?\n3) Find the minimum spanning tree\n")
+        
