@@ -45,20 +45,39 @@ class Main:
         while (len(s) != 0):
             n = s.pop()
             if(n == dest):
-                return true
+                return True
             else:
                 N = G[n].getNeighbors()
                 for v in N:
-                    s.push(v)
+                    s.append(v.node2)
         return false
 
      # Dijkstra's Algorithm
-    def dijkstras(G, start, target):
+    def dijkstra(G, start, target):
         V = G
         D[0:len(G)] = sys.maxint
         P[0:len(G)] = None
         D[0] = start
-        return 'not done yet'
+        while(len(V) != 0):
+            temp = sys.maxint
+            n = None # n is only the value of the node
+            for i in V:
+                if D[D.index(i)] < temp:
+                    temp = D[D.index(i)]
+                    n = i
+            if(n == target):
+                R = [P, D]
+                return R
+                # return P, D
+            N = G[n].getNeighbors()
+            for c in N:     # c is an edge node, thus c.node2 is the value of
+                            # the destination of the edge
+                if(D[n] + c.cost < D[c.node2]):
+                   D[c.node2] = D[n] + c.cost
+                   P[c.node2] = n
+            V.remove(n)
+        R = [P, D]
+        return R
 
     def prims(G):
         return 'not implemented yet'
