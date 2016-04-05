@@ -59,27 +59,44 @@ def dijkstras(G, start, target):
     D[0] = start
     return 'not done yet'
 
-# Question: What exactly is the minimum spanning tree?
-# Is it a graph?
-# Question: Cheapest connection - if this is a directed graphm,
-# which direction are we going?  From left to right or from
-# right to left?
 def prims(G):
-    # The minimum spanning tree will be a graph with
-    # the same nodes as G
-    min_span_tree = Graph()
-    min_span_tree.numNodes = G.numNodes
+    # The minimum spanning tree will be a list of Edge objects
+    min_span_tree = []
 
     # If there are more than 0 nodes, will put node 0
     # in left and the rest of the nodes in right
     left, right = cut(G)
 
     while len(left) < G.numNodes:
+        # Find the minimum edge that connects a node
+        # from left to a node in right
         e = cheapest_connection(G, left, right)
-        min_span_tree.E[e.node1].append(e)
-        left.append(e.node1)
-        right.remove(e.node2)
+        # Add the edge to the minimum spanning tree
+        min_span_tree.append(e)
+        # Add the node from right to left
+        left.append(e.node2)
+        # Remove the node from right
+        right.remove(e.node1)
+        
     return min_span_tree
+
+def cut(G):
+    left = []
+    right = []
+    # If we have at least one node in the graph,
+    # make the cut
+    if(G.numNodes > 0):
+        # left gets the starting node (node 0)
+        left.append(0)
+        right = []
+        # Add the nodes 1...n to the graph
+        for node in range(G.numNodes - 1):
+            right.append(node + 1)
+            
+    return left, right
+
+def cheapest_connection(G, left, right):
+     pass 
 
 # Dijkstra's Algorithm
 def dijkstra(G, start, target):
@@ -106,25 +123,7 @@ def dijkstra(G, start, target):
                P[c.node2] = n
         V.remove(n)
     R = [P, D]
-    return R
-
-def cut(G):
-    left = []
-    right = []
-    # If we have at least one node in the graph,
-    # make the cut
-    if(G.numNodes > 0):
-        # left gets the starting node (node 0)
-        left.append(0)
-        right = []
-        # Add the nodes 1...n to the graph
-        for node in range(G.numNodes - 1):
-            right.append(node + 1)
-            
-    return left, right
-
-def cheapest_connection(G, left, right):
-     pass      
+    return R     
 
 if __name__ == "__main__":
     graphFileName = input("Enter in the name of the graph file: ")
