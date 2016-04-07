@@ -1,6 +1,7 @@
 import sys
 import re
 from Graph import Graph
+from Graph import Edge
 
 # parses a text file with one line of the format
 # 4 $ 1,2,3 ; 2,1,5
@@ -39,8 +40,9 @@ def parseGraphFromFile(fileName):
 
 # Depth First Search
 def DFS(G, start, dest):
+    # s is a stack
     s = []
-    s.append(start) # stack
+    s.append(start)
     while (len(s) != 0):
         n = s.pop()
         if(n == dest):
@@ -50,14 +52,6 @@ def DFS(G, start, dest):
             for v in N:
                 s.append(v.node2)
     return False
-
- # Dijkstra's Algorithm
-def dijkstras(G, start, target):
-    V = G
-    D[0:len(G)] = sys.maxint
-    P[0:len(G)] = None
-    D[0] = start
-    return 'not done yet'
 
 def prims(G):
     # The minimum spanning tree will be a list of Edge objects
@@ -98,32 +92,62 @@ def cut(G):
 def cheapest_connection(G, left, right):
      pass 
 
+
+def shortestPath(G, start, target):
+    R = dijkstra(G, start, target)
+    D = R[1]
+    P = R[0]
+    s = []
+    u = int(target)
+    print("u = " + str(u))
+    print(P)
+    while P[u] != u and u != None:
+        s.append(u)
+        u = P[u]
+    s.append(u)
+    print("Shortest path from " + str(start) + " to " + str(target) + " is: \n")
+    while len(s) != 0:
+        print(str(s.pop()) + " ")
+    print("Cost: " + str(D[target]))
+
 # Dijkstra's Algorithm
 def dijkstra(G, start, target):
-    V = list(range(G.numNodes))
+    # V is list of visited nodes
+    V = [start]
+    # D is an array of the total costs of the paths
     D = [sys.maxsize] * G.numNodes
+    # P is an array of the parents
     P = [None] * G.numNodes
-    D[0] = start
-    while(len(V) != 0):
+    # set start node parent to start
+    P[start] = start
+    # set start node path cost to 0
+    D[start] = 0
+    while(len(V) != G.numNodes):
         temp = sys.maxsize
-        n = 0 # n is only the value of the node
-        for i in V: # check this out, it's not right yet
-            if int(D[i]) < int(temp):
-                temp = D[i]
-                n = i
-        if(n == target):
+        n = Edge(0, 0, 0) # n will be the minimal edge
+        for i in V: # for every visited node
+            for c in G.getNeighbors(i):    # for every neighbor of i
+                # find minimal edge from node in V to node not in V
+                if not c.node2 in V:
+                    if c:
+                        if D[i] + c.cost < temp:
+                            temp = D[i] + c.cost
+                            n = c
+        # n should be the minimum edge where D[n.node1] + n.cost is minimal
+        # total cost of dest node = total cost of parent node +
+        # cost(parent, dest)
+        D[n.node2] = D[n.node1] + n.cost
+        # add dest node to V
+        V.append(n.node2)
+        # update parent of dest node
+        P[n.node2] = n.node1
+        # if dest node is the target node
+        # then return the list of parents and costs
+        if(n.node2 == target):
             R = [P, D]
             return R
-            # return P, D
-        N = G.getNeighbors(n)
-        for c in N:     # c is an edge node, thus c.node2 is the value of
-                        # the destination of the edge
-            if(D[n] + c.cost < D[c.node2]):
-               D[c.node2] = D[n] + c.cost
-               P[c.node2] = n
-        V.remove(n)
     R = [P, D]
-    return R     
+    return R
 
 if __name__ == "__main__":
     graphFileName = input("Enter in the name of the graph file: ")
@@ -140,7 +164,7 @@ if __name__ == "__main__":
         elif choice == '2':
             start = input("Enter a starting node: ")
             target = input("Enter a destination node: ")
-            print(dijkstra(userGraph), int(start), int(target))
+            shortestPath(userGraph, int(start), int(target))
         elif choice == '3':
             print(prims(userGraph))
         else:
