@@ -59,8 +59,10 @@ def prims(G):
 
     # If there are more than 0 nodes, will put node 0
     # in left and the rest of the nodes in right
+    # O(n) time
     left, right = cut(G)
 
+    # Loop: O(n * (n^2 * d)) = O(dn^3)
     while len(left) < G.numNodes:
         # Find the minimum edge that connects a node
         # from left to a node in right
@@ -70,10 +72,13 @@ def prims(G):
         # Add the node from right to left
         left.append(e.node2)
         # Remove the node from right
-        right.remove(e.node1)
+        right.remove(e.node2)
         
     return min_span_tree
 
+# Returns 2 lists that represent a cut of the graph, where
+# one list has a length of one and the other has the rest of
+# the nodes. Runs in O(n) time where n is the number of nodes in G
 def cut(G):
     left = []
     right = []
@@ -82,15 +87,26 @@ def cut(G):
     if(G.numNodes > 0):
         # left gets the starting node (node 0)
         left.append(0)
-        right = []
-        # Add the nodes 1...n to the graph
+        # Add the nodes 1...n to the right list
         for node in range(G.numNodes - 1):
             right.append(node + 1)
             
     return left, right
 
-def cheapest_connection(G, left, right):
-     pass 
+# If G is a weighted, connected graph and S1 and S2 represent a
+# cut of G, then cheapest_connection(G, S1, S2) is the edge with
+# the lowest cost that connects a node in S1 to a node in S2
+# Runs in O(n^2 * d), where n is the number of nodes and d is
+# the highest degree of any node in G
+def cheapest_connection(G, S1, S2):
+    minEdge = Edge(-1, -1, sys.maxsize)
+    for node1 in S1:
+        for node2 in S2:
+            # Runs in O(d), where d is the highest degree of any node
+            edge = G.getEdge(node1, node2) 
+            if edge and edge.cost < minEdge.cost:
+                minEdge = edge
+    return minEdge
 
 
 def shortestPath(G, start, target):
@@ -166,7 +182,9 @@ if __name__ == "__main__":
             target = input("Enter a destination node: ")
             shortestPath(userGraph, int(start), int(target))
         elif choice == '3':
-            print(prims(userGraph))
+            mst = prims(userGraph)
+            for edge in mst:
+                print(edge)
         else:
             print("Sorry, that was not an option")
         choice = input("\nPlease enter a menu option:\n0) Exit\n1) Is there a path from A to B?\n2) What is the shortest path from A to B?\n3) Find the minimum spanning tree\n")
