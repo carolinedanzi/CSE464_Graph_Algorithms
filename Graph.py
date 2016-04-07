@@ -57,7 +57,15 @@ class Graph:
             self.E[n1].append(edge)
             #May not need this if it is a directed graph?
             #self.E[n2].append(edge)
-
+            
+    # getEdge takes in a start node and a destination node and
+    # returns the edge between the two them.
+    def getEdge(self, n1, n2):
+        for i in self.E[n1]:
+            if i.node2 == n2:
+                return i
+        return None
+    
     # Since we do not store a list of the vertices, simply
     # add one to the number of nodes and create an empty list
     # for its edges.
