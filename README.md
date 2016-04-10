@@ -1,4 +1,11 @@
 # CSE464_Graph_Algorithms
+
+## How to Compile and Run
+ - We are using Python 3, so you will need a Python 3 interpreter
+ - Make sure your graph file (see proper format below) is in the same directory as the source code
+ - Run Main.py in the interpreter, either by invoking the command `python Main.py` on the command line or by using IDLE.
+ - Follow the directions in the menu.  It first asks you to enter the name of the graph file. Please type the entire filename (ex: graph.txt)
+
 ## Input Format for Graphs
 ### File Format
 The textual representation of the graph you wish to analyze MUST be stored in a text (.txt) file.  It can have any file name you wish.
