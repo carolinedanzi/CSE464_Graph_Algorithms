@@ -1,8 +1,13 @@
+"""
+Source: https://github.com/danielborowski/fibonacci-heap-python
+"""
+
 class FibonacciHeap:
     
     # internal node class 
     class Node:
-        def __init__(self, data):
+        def __init__(self, label, data):
+            self.label = label
             self.data = data
             self.parent = self.child = self.left = self.right = None
             self.degree = 0
@@ -52,8 +57,8 @@ class FibonacciHeap:
         return z
                     
     # insert new node into the unordered root list in O(1) time
-    def insert(self, data):
-        n = self.Node(data)
+    def insert(self, label, data):
+        n = self.Node(label, data)
         n.left = n.right = n
         self.merge_with_root_list(n)
         if self.min_node is None or n.data < self.min_node.data:
