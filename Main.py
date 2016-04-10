@@ -145,8 +145,8 @@ def dijkstra(G, start, target):
             for c in G.getNeighbors(i):    # for every neighbor of i
                 # find minimal edge from node in V to node not in V
                 if not c.node2 in V:
-                    if c:
-                        if D[i] + c.cost < temp:
+                    if c:       # if c is a not null edge
+                        if D[i] + c.cost < temp:    # is this new edge minimal
                             temp = D[i] + c.cost
                             n = c
         # n should be the minimum edge where D[n.node1] + n.cost is minimal
@@ -162,6 +162,7 @@ def dijkstra(G, start, target):
         if(n.node2 == target):
             R = [P, D]
             return R
+    # end while
     R = [P, D]
     return R
 
