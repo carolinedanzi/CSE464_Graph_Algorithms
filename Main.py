@@ -39,18 +39,26 @@ def parseGraphFromFile(fileName):
     return graph
 
 # Depth First Search
+# Note: According to https://wiki.python.org/moin/TimeComplexity
+# the time complexity of x in s is O(n), where n is the lenght of s
+# and the time complexity of append is O(1)
 def DFS(G, start, dest):
     # s is a stack
-    s = []
-    s.append(start)
-    while (len(s) != 0):
-        n = s.pop()
+    workList = []
+    visited = []
+    workList.append(start)
+    while (len(visited) != G.numNodes):
+        n = workList.pop()
+        visited.append(n)
         if(n == dest):
             return True
         else:
-            N = G.getNeighbors(n)
-            for v in N:
-                s.append(v.node2)
+            # getNeighbors actually returns the list of edges
+            # connected to node n
+            edgeList = G.getNeighbors(n)
+            for v in edgeList:
+                if v.node2 not in visited:
+                    workList.append(v.node2)
     return False
 
 def prims(G):
